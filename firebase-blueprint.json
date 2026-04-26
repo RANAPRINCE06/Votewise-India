@@ -1,0 +1,57 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Public and non-sensitive user data",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "mobile": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "citizen"] },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["name", "email", "role", "createdAt"]
+    },
+    "TimelineItem": {
+      "title": "Timeline Event",
+      "description": "Events related to election phases",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "date": { "type": "string" },
+        "phase": { "type": "string" },
+        "state": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["title", "description", "date", "phase", "createdAt"]
+    },
+    "ChatHistoryItem": {
+      "title": "Chat History",
+      "description": "Log of messages sent to Gemini",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "message": { "type": "string" },
+        "response": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["userId", "message", "response", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Stores user profiles"
+    },
+    "/timeline/{timelineId}": {
+      "schema": { "$ref": "#/entities/TimelineItem" },
+      "description": "Stores election timeline events"
+    },
+    "/chatHistory/{chatId}": {
+      "schema": { "$ref": "#/entities/ChatHistoryItem" },
+      "description": "Stores chat interactions with SecurAI"
+    }
+  }
+}
